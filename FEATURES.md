@@ -14,7 +14,8 @@ This file answers one question:
 
 IMPLEMENTED
 
-\[ ] (nothing yet)
+IMPLEMENTED
+[x] Project sandbox + version tracking (Git)
 
 
 
