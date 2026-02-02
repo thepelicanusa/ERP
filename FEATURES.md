@@ -14,7 +14,6 @@ This file answers one question:
 
 IMPLEMENTED
 
-IMPLEMENTED
 [x] Project sandbox + version tracking (Git)
 
 
