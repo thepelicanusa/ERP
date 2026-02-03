@@ -1,0 +1,11 @@
+{
+  "key": "support",
+  "name": "Support",
+  "version": "1.0.0",
+  "description": "Support tickets linked to parties via party_profile.",
+  "installable": true,
+  "depends_on": [
+    "contacts"
+  ],
+  "seeders": []
+}

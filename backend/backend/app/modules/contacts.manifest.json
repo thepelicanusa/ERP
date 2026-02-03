@@ -1,0 +1,9 @@
+{
+  "key": "contacts",
+  "name": "Contacts",
+  "version": "1.0.0",
+  "description": "Party (person/org) master data with company-scoped profiles and customer/vendor roles.",
+  "installable": true,
+  "depends_on": [],
+  "seeders": []
+}

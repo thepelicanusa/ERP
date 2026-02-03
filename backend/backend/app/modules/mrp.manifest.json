@@ -1,0 +1,10 @@
+{
+  "key": "mrp",
+  "name": "MRP",
+  "version": "0.1.0",
+  "depends_on": [
+    "inventory"
+  ],
+  "seeders": [],
+  "installable": true
+}

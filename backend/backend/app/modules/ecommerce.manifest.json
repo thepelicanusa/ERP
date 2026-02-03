@@ -1,0 +1,11 @@
+{
+  "key": "ecommerce",
+  "name": "E-Commerce",
+  "version": "0.1.0",
+  "depends_on": [
+    "sales",
+    "inventory"
+  ],
+  "seeders": [],
+  "installable": true
+}

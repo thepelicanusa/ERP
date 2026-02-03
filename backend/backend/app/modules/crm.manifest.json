@@ -1,0 +1,10 @@
+{
+  "key": "crm",
+  "name": "CRM",
+  "version": "0.1.0",
+  "depends_on": [
+    "sales"
+  ],
+  "seeders": [],
+  "installable": true
+}

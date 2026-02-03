@@ -1,0 +1,14 @@
+{
+  "key": "planning",
+  "name": "Planning (MRP II + APS)",
+  "version": "0.1.0",
+  "depends_on": [
+    "inventory",
+    "mrp",
+    "purchasing",
+    "sales",
+    "mes"
+  ],
+  "seeders": [],
+  "installable": true
+}

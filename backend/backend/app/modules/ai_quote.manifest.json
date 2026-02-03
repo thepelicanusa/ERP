@@ -1,0 +1,11 @@
+{
+  "key": "ai_quote",
+  "name": "AI Quoting",
+  "version": "0.1.0",
+  "depends_on": [
+    "sales",
+    "inventory"
+  ],
+  "seeders": [],
+  "installable": true
+}

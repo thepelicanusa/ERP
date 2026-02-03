@@ -1,0 +1,8 @@
+{
+  "key": "inventory",
+  "name": "Inventory",
+  "version": "0.1.0",
+  "depends_on": [],
+  "seeders": [],
+  "installable": true
+}

@@ -1,0 +1,9 @@
+{
+  "key": "mdm",
+  "name": "Master Data Management (MDM)",
+  "version": "1.0.0",
+  "description": "Single source of identity for ISA-95 hierarchy, items, parties, people, equipment, and units of measure.",
+  "installable": true,
+  "depends_on": [],
+  "seeders": ["demo_bootstrap"]
+}

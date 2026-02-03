@@ -1,0 +1,14 @@
+{
+  "key": "wms",
+  "name": "WMS",
+  "version": "0.1.0",
+  "depends_on": [
+    "inventory",
+    "sales",
+    "purchasing"
+  ],
+  "seeders": [
+    "default_locations"
+  ],
+  "installable": true
+}

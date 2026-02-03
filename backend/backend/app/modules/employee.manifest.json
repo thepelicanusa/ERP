@@ -1,0 +1,10 @@
+{
+  "key": "employee",
+  "name": "Employee",
+  "version": "0.1.0",
+  "depends_on": [
+    "accounting"
+  ],
+  "seeders": [],
+  "installable": true
+}

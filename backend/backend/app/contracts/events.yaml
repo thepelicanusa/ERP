@@ -1,0 +1,125 @@
+version: 0.1.0
+principles:
+- Events are facts (past tense). Commands are requests. Queries are read-only.
+- Execution modules (Inventory/WMS/MES) publish operational facts.
+- Planning modules (MRP/Planning) publish intent (plans/schedules).
+- Governance modules (QMS) publish holds/releases and compliance outcomes.
+- Finance (Accounting) consumes facts to post journals; it never mutates operational
+  ledgers.
+domains:
+  mdm:
+  - mdm.org_unit.created
+  - mdm.uom.created
+  - mdm.item_class.created
+  - mdm.item.created
+  - mdm.party.created
+  - mdm.person.created
+  - mdm.equipment.created
+  sales:
+  - sales.order.created
+  - sales.order.confirmed
+  - sales.order.cancelled
+  - sales.shipment.confirmed
+  purchasing:
+  - purch.po.created
+  - purch.po.approved
+  - purch.receipt.posted
+  ecommerce:
+  - ecommerce.order.placed
+  - ecommerce.payment.captured
+  - ecommerce.refund.issued
+  inventory:
+  - inventory.lot.created
+  - inventory.lot.received
+  - inventory.stock.moved
+  - inventory.stock.reserved
+  - inventory.stock.issued
+  - inventory.stock.adjusted
+  wms:
+  - wms.wave.released
+  - wms.task.started
+  - wms.task.completed
+  - wms.pick.confirmed
+  - wms.putaway.confirmed
+  - wms.cyclecount.completed
+  qms:
+  - qms.inspection.required
+  - qms.inspection.completed
+  - qms.lot.held
+  - qms.lot.released
+  - qms.ncr.opened
+  - qms.capa.opened
+  - qms.capa.closed
+  mrp:
+  - mrp.plan.generated
+  - mrp.planned_order.created
+  - mrp.exception.raised
+  planning:
+  - planning.schedule.published
+  - planning.scenario.created
+  - planning.scenario.evaluated
+  mes:
+  - mes.work_order.released
+  - mes.operation.started
+  - mes.operation.completed
+  - mes.material.consumed
+  - mes.goods.reported
+  - mes.downtime.reported
+  accounting:
+  - acct.journal.posted
+  - acct.period.closed
+example_payloads:
+  mdm.item.created:
+    id: 3b4b3b3b-1111-2222-3333-444444444444
+    item_code: ITEM-001
+    name: Demo Item
+    uom_code: EA
+    class_code: FG
+    ts: '2026-02-02T00:00:00Z'
+  sales.order.confirmed:
+    order_id: SO-100045
+    customer_id: CUST-001
+    lines:
+    - item_id: ITEM-ABC
+      qty: 10
+      uom: EA
+      due_date: '2026-02-20'
+    meta:
+      source: ecommerce
+      priority: NORMAL
+    ts: '2026-02-01T12:34:56Z'
+  inventory.lot.received:
+    lot_id: LOT-9001
+    item_id: ITEM-ABC
+    qty: 100
+    uom: EA
+    location_id: WH1/RECV/DOCK-1
+    ref:
+      type: PO
+      id: PO-7788
+    ts: '2026-02-01T12:40:00Z'
+  qms.lot.held:
+    lot_id: LOT-9001
+    reason: INCOMING_INSPECTION_REQUIRED
+    hold_code: IQC
+    ts: '2026-02-01T12:41:00Z'
+  mes.operation.completed:
+    work_order_id: WO-555
+    operation_id: OP-20
+    good_qty: 9
+    scrap_qty: 1
+    uom: EA
+    equipment_id: LINE1/CELL2
+    ts: '2026-02-01T15:10:00Z'
+  acct.journal.posted:
+    journal_id: JE-2026-000123
+    source_event: mes.operation.completed
+    ref_id: WO-555
+    lines:
+    - account: WIP
+      debit: 1200.0
+      credit: 0.0
+    - account: LABOR_APPLIED
+      debit: 0.0
+      credit: 1200.0
+    ts: '2026-02-01T15:10:05Z'

@@ -1,0 +1,30 @@
+﻿from __future__ import annotations
+from sqlalchemy import String, Boolean, ForeignKey, JSON, Index
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from app.db.base import Base
+from app.db.models.wms.common import HasId, HasCreatedAt
+
+class Company(Base, HasId, HasCreatedAt):
+    __tablename__ = "erp_company"
+    code: Mapped[str] = mapped_column(String(32), unique=True, nullable=False, index=True)
+    name: Mapped[str] = mapped_column(String(256), nullable=False)
+    currency: Mapped[str] = mapped_column(String(3), default="USD", nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    meta: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)
+
+class ErpSite(Base, HasId, HasCreatedAt):
+    __tablename__ = "erp_site"
+    company_id: Mapped[str] = mapped_column(ForeignKey("erp_company.id"), nullable=False, index=True)
+    code: Mapped[str] = mapped_column(String(32), nullable=False, index=True)
+    name: Mapped[str] = mapped_column(String(256), nullable=False)
+    timezone: Mapped[str] = mapped_column(String(64), default="America/New_York", nullable=False)
+    meta: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)
+
+    company = relationship("app.db.models.wms.facilities.Company")
+
+Index("ix_erp_site_company_code", ErpSite.company_id, ErpSite.code, unique=True)
+
+
+
+
+
