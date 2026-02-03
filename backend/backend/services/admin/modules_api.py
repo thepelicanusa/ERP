@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import os
@@ -241,31 +241,31 @@ def seed_module(module_key: str, seed_key: str, db: Session = Depends(get_db), p
         created = {"org_units":0, "uoms":0, "item_classes":0, "items":0, "parties":0}
 
         # Minimal ISA-95 hierarchy
-        ent = db.query(MDMOrgUnit).filter(MDMOrgUnit.type=="ENTERPRISE", MDMOrgUnit.code=="ENT1").first()
+        ent = db.query(Site).filter(MDMOrgUnit.type=="ENTERPRISE", MDMOrgUnit.code=="ENT1").first()
         if not ent:
             ent = MDMOrgUnit(type="ENTERPRISE", code="ENT1", name="Default Enterprise")
             db.add(ent); db.commit(); db.refresh(ent)
             created["org_units"] += 1
 
-        site = db.query(MDMOrgUnit).filter(MDMOrgUnit.type=="SITE", MDMOrgUnit.code=="SITE1").first()
+        site = db.query(Site).filter(Site.type==SITE_TYPE, MDMOrgUnit.code=="SITE1").first()
         if not site:
             site = MDMOrgUnit(type="SITE", code="SITE1", name="Main Site", parent_id=ent.id)
             db.add(site); db.commit(); db.refresh(site)
             created["org_units"] += 1
 
-        area = db.query(MDMOrgUnit).filter(MDMOrgUnit.type=="AREA", MDMOrgUnit.code=="AREA1").first()
+        area = db.query(Site).filter(MDMOrgUnit.type=="AREA", MDMOrgUnit.code=="AREA1").first()
         if not area:
             area = MDMOrgUnit(type="AREA", code="AREA1", name="Production", parent_id=site.id)
             db.add(area); db.commit(); db.refresh(area)
             created["org_units"] += 1
 
-        line = db.query(MDMOrgUnit).filter(MDMOrgUnit.type=="LINE", MDMOrgUnit.code=="LINE1").first()
+        line = db.query(Site).filter(MDMOrgUnit.type=="LINE", MDMOrgUnit.code=="LINE1").first()
         if not line:
             line = MDMOrgUnit(type="LINE", code="LINE1", name="Line 1", parent_id=area.id)
             db.add(line); db.commit(); db.refresh(line)
             created["org_units"] += 1
 
-        cell = db.query(MDMOrgUnit).filter(MDMOrgUnit.type=="CELL", MDMOrgUnit.code=="CELL1").first()
+        cell = db.query(Site).filter(MDMOrgUnit.type=="CELL", MDMOrgUnit.code=="CELL1").first()
         if not cell:
             cell = MDMOrgUnit(type="CELL", code="CELL1", name="Cell 1", parent_id=line.id)
             db.add(cell); db.commit(); db.refresh(cell)
@@ -334,9 +334,11 @@ def upgrade_module(module_key: str, payload: dict | None = None, db: Session = D
         )
     except Exception as e:
         raise HTTPException(500, f"Alembic upgrade failed: {e}")
+from app.db.models.site import Site, SITE_TYPE
 
     mod.installed_version = mod.version
     mod.upgraded_at = datetime.utcnow()
     mod.upgraded_by = getattr(principal, "username", None) or "admin"
     db.commit()
     return {"ok": True, "module_key": module_key, "upgraded": True, "installed_version": mod.installed_version}
+
