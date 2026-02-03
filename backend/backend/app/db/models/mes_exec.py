@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 from datetime import datetime
 from decimal import Decimal
 from sqlalchemy import String, DateTime, JSON, ForeignKey, Numeric, Index
@@ -49,7 +49,7 @@ class ProductionOrderExec(Base, HasId, HasCreatedAt):
 
 class ProductionOperation(Base, HasId, HasCreatedAt):
     __tablename__ = "mes_production_operation"
-    prod_order_id: Mapped[str] = mapped_column(ForeignKey("mes_production_order.id"), nullable=False, index=True)
+    prod_order_id: Mapped[str] = mapped_column(ForeignKey("mes_production_order_exec.id"), nullable=False, index=True)
     routing_op_id: Mapped[str] = mapped_column(ForeignKey("mes_routing_operation.id"), nullable=False, index=True)
     sequence: Mapped[int] = mapped_column(nullable=False)
     status: Mapped[str] = mapped_column(String(24), default="READY", nullable=False, index=True)  # READY/RUNNING/DONE
@@ -61,7 +61,7 @@ Index("ix_mes_prodop_order_seq", ProductionOperation.prod_order_id, ProductionOp
 
 class ProductionMaterialExec(Base, HasId, HasCreatedAt):
     __tablename__ = "mes_production_material_exec"
-    prod_order_id: Mapped[str] = mapped_column(ForeignKey("mes_production_order.id"), nullable=False, index=True)
+    prod_order_id: Mapped[str] = mapped_column(ForeignKey("mes_production_order_exec.id"), nullable=False, index=True)
     item_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)  # inv_item_master.id
     qty_required: Mapped[Decimal] = mapped_column(Numeric(18,6), nullable=False)
     qty_issued: Mapped[Decimal] = mapped_column(Numeric(18,6), default=0, nullable=False)
@@ -92,3 +92,4 @@ class ProductionQualityCheck(Base, HasId, HasCreatedAt):
     meta: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)
 
 Index("ix_mes_qc_op_code", ProductionQualityCheck.prod_op_id, ProductionQualityCheck.check_code)
+
