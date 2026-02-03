@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
@@ -16,7 +16,7 @@ from app.db.models.inventory import InventoryItem
 # so there is one inventory truth in the database.
 
 
-class Site(Base, HasId, HasCreatedAt):
+class InvSite(Base, HasId, HasCreatedAt):
     __tablename__ = "inv_site"
 
     tenant_id: Mapped[str] = mapped_column(String(64), default="default", index=True, nullable=False)
@@ -25,7 +25,7 @@ class Site(Base, HasId, HasCreatedAt):
     meta: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)
 
 
-Index("ix_site_tenant_code", Site.tenant_id, Site.code)
+Index("ix_site_tenant_code", InvSite.tenant_id, InvSite.code)
 
 
 class WMSLocation(Base, HasId, HasCreatedAt):
@@ -202,4 +202,9 @@ HandlingUnit = WMSHandlingUnit
 # ============================================================================
 # Some services expect generic name 'Lot' from this module.
 Lot = WMSLot
+
+
+
+# Back-compat alias (temporary)
+Site = InvSite
 
