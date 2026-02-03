@@ -36,8 +36,8 @@ class RoutingOperation(Base, HasId, HasCreatedAt):
 
 Index("ix_mes_routeop_routing_seq", RoutingOperation.routing_id, RoutingOperation.sequence)
 
-class ProductionOrder(Base, HasId, HasCreatedAt):
-    __tablename__ = "mes_production_order"
+class ProductionOrderExec(Base, HasId, HasCreatedAt):
+    __tablename__ = "mes_production_order_exec"
     tenant_id: Mapped[str] = mapped_column(String(64), default="default", index=True, nullable=False)
     number: Mapped[str] = mapped_column(String(64), nullable=False, unique=True, index=True)
     item_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)  # inv_item_master.id
@@ -59,8 +59,8 @@ class ProductionOperation(Base, HasId, HasCreatedAt):
 
 Index("ix_mes_prodop_order_seq", ProductionOperation.prod_order_id, ProductionOperation.sequence)
 
-class ProductionMaterial(Base, HasId, HasCreatedAt):
-    __tablename__ = "mes_production_material"
+class ProductionMaterialExec(Base, HasId, HasCreatedAt):
+    __tablename__ = "mes_production_material_exec"
     prod_order_id: Mapped[str] = mapped_column(ForeignKey("mes_production_order.id"), nullable=False, index=True)
     item_id: Mapped[str] = mapped_column(String(64), nullable=False, index=True)  # inv_item_master.id
     qty_required: Mapped[Decimal] = mapped_column(Numeric(18,6), nullable=False)
