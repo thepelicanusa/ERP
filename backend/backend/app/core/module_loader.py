@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import importlib
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Dict, Tuple
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 
 from services.admin.module_guard import require_module_enabled
 
@@ -32,6 +32,7 @@ MODULE_ROUTERS: Dict[str, Tuple[str, str, str]] = {
 # Tracks what we already mounted to keep idempotent behavior.
 _mounted: set[str] = set()
 
+
 def mount_module(app: FastAPI, module_key: str) -> bool:
     """Mount a module router into the running app.
 
@@ -40,6 +41,7 @@ def mount_module(app: FastAPI, module_key: str) -> bool:
     """
     if module_key in _mounted:
         return False
+
     spec = MODULE_ROUTERS.get(module_key)
     if not spec:
         return False
@@ -48,7 +50,9 @@ def mount_module(app: FastAPI, module_key: str) -> bool:
     mod = importlib.import_module(import_path)
     router = getattr(mod, router_attr)
 
-    deps = [require_module_enabled(module_key)]
+    # IMPORTANT: FastAPI expects a Depends(...) object in dependencies, not a raw function.
+    deps = [Depends(require_module_enabled(module_key))]
+
     if prefix:
         app.include_router(router, prefix=prefix, dependencies=deps)
     else:
@@ -56,6 +60,7 @@ def mount_module(app: FastAPI, module_key: str) -> bool:
 
     _mounted.add(module_key)
     return True
+
 
 def ensure_mounted(app: FastAPI, module_keys: list[str]) -> None:
     for k in module_keys:

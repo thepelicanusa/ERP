@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import os
 import hashlib
@@ -20,7 +20,7 @@ from app.core.tenant import get_tenant_id
 
 bearer = HTTPBearer(auto_error=False)
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-me")
 JWT_ALG = os.getenv("JWT_ALG", "HS256")
@@ -315,3 +315,4 @@ def require_permissions(required: Iterable[str], scope_type: str | None = None, 
             raise HTTPException(status_code=403, detail=detail)
 
     return _dep
+

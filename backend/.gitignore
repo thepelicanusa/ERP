@@ -1,0 +1,33 @@
+﻿# OS / editor
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+venv/
+
+# Node / frontend
+**/node_modules/
+**/.vite/
+**/dist/
+**/.package-lock.json
+
+# Local overrides / compose
+docker-compose.override.yml
+compose.override.yml
+compose.override.*.yml
+
+# Backups / scratch
+*.bak
+*.bak_*
+*.swp
+*.tmp
+
+# Secrets / tokens
+token.txt
+*.token
